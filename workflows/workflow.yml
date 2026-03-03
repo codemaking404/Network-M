@@ -1,0 +1,28 @@
+name: Python Package Build
+
+on:
+  push:
+    branches: [ "main" ] # Triggers every time you push to the main branch
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Runs on GitHub's Linux servers
+
+    steps:
+    - uses: actions/checkout@v4 # Downloads your code from GitHub
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13' # Uses the same version you have installed
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests beautifulsoup4 # Installs the requirements from your setup.py 
+
+    - name: Test Build
+      run: |
+        python setup.py sdist bdist_wheel # Tests if the project can be packaged
